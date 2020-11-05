@@ -1,0 +1,34 @@
+#include<TH1.h>
+#include<TFile.h>
+#include<TLatex.h>
+#include<TLegend.h>
+
+void plotter(){
+  char s[30]="demo/phi_photon";
+  TFile *f1, *f2, *f3;
+  f1 = new TFile("nmssm_m300_400.root");
+  f2 = new TFile("nmssm_m600_800.root");
+  f3 = new TFile("nmssm_m900_1000.root");
+  
+  TH1F *h1 = (TH1F*) f1->Get(s);
+  TH1F *h2 = (TH1F*) f2->Get(s);
+  TH1F *h3 = (TH1F*) f3->Get(s);
+  h1->SetTitle("M_{X} = 300-400 GeV");
+  h2->SetTitle("M_{X} = 600-800 GeV");
+  h3->SetTitle("M_{X} = 900-1000 GeV");
+  TCanvas *c;
+  TLegend *l;
+  h1->SetLineColor(600);
+  h2->SetLineColor(418);
+  h3->SetLineColor(625);
+  h1->SetLineWidth(1);
+  h2->SetLineWidth(1);
+  h3->SetLineWidth(1);
+  h1->Scale(1/(h1->GetEntries()));
+  h2->Scale(1/(h2->GetEntries()));
+  h3->Scale(1/(h3->GetEntries()));
+  h1->SetMaximum(1.2*h1->GetMaximum());
+  h1->Draw("hist");
+  h2->Draw("hist&same");
+  h3->Draw("hist&same");
+}
